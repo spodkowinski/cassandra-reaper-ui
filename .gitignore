@@ -7,6 +7,5 @@
 bower_components/
 node_modules/
 build/*.js
-
-
+cassandra-reaper-ui*.zip
 
