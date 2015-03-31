@@ -1,0 +1,12 @@
+*.bak
+*.ttf
+*.eot
+*.woff
+*.woff2
+*.svg
+bower_components/
+node_modules/
+build/*.js
+
+
+
