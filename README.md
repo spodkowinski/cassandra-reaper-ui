@@ -8,7 +8,7 @@ Complimentary web UI for [Cassandra Reaper](https://github.com/spotify/cassandra
 
 You'll have to recompile Cassandra Reaper to include the UI.
 
-1. Download [latest release](https://github.com/spodkowinski/cassandra-reaper-ui/releases/download/v0.1.0/cassandra-reaper-ui-0.1.zip)
+1. Download [latest release](https://github.com/spodkowinski/cassandra-reaper-ui/releases/download/v0.2.0/cassandra-reaper-ui-0.2.zip)
 1. Get [Cassandra Reaper](https://github.com/spotify/cassandra-reaper) sources
 1. Extract zip archive to `src/main/resources/assets/`
 1. Build Cassandra Reaper `mvn package`
@@ -37,6 +37,8 @@ The dev-server can be started as follows:
 
 Afterwards you should be able to access the server under the following url:
 http://localhost:8000/webpack-dev-server/
+
+Make sure to enable cross-origin requests to the reaper server by starting it with the `-DenableCrossOrigin` jvm parameter.
 
 ##### Frameworks and tools
 
