@@ -12,6 +12,18 @@ export const RowDeleteMixin = {
 
 };
 
+export const RowAbortMixin = {
+
+  abortButton: function() {
+    return <button type="button" className="btn btn-xs btn-danger" onClick={this._onAbort}>Abort</button>
+  },
+
+  _onAbort: function(e) {
+    this.props.updateStatusSubject.onNext({id: this.props.row.id, state: 'ABORTED'});
+  }
+
+};
+
 export const StatusUpdateMixin = {
 
   statusUpdateButton: function() {
@@ -30,13 +42,17 @@ export const StatusUpdateMixin = {
 
   _onToggleStatus: function(e) {
     let toStatus = null;
-    if(this.props.row.state == 'ACTIVE' || this.props.row.state == 'RUNNING') {
+    const state = this.props.row.state;
+    if(state == 'ACTIVE' || state == 'RUNNING') {
       toStatus = 'PAUSED';
-    } else if(this.props.row.state == 'PAUSED') {
-      toStatus = 'ACTIVE';
-    } else if(this.props.row.state == 'NOT_STARTED') {
-      toStatus = 'RUNNING';
+    } else if(state == 'PAUSED' || state == 'NOT_STARTED') {
+      if(this.props.row.scheduled_days_between) {
+        toStatus = 'ACTIVE'; // repair schedule
+      } else {
+        toStatus = 'RUNNING'; // repair run
+      }
     }
+
     this.props.updateStatusSubject.onNext({id: this.props.row.id, state: toStatus});
   }
 

@@ -1,10 +1,10 @@
 import React from "react";
 import moment from "moment";
-import {RowDeleteMixin, StatusUpdateMixin, DeleteStatusMessageMixin} from "jsx/mixin";
+import {RowDeleteMixin, RowAbortMixin, StatusUpdateMixin, DeleteStatusMessageMixin} from "jsx/mixin";
 
 
 const TableRow = React.createClass({
-  mixins: [RowDeleteMixin, StatusUpdateMixin],
+  mixins: [RowDeleteMixin, StatusUpdateMixin, RowAbortMixin],
 
   render: function() {
 
@@ -12,6 +12,10 @@ const TableRow = React.createClass({
     const segsRepaired = this.props.row.segments_repaired;
     const segsTotal = this.props.row.total_segments;
     const segsPerc = (100/segsTotal)*segsRepaired;
+
+    const state = this.props.row.state;
+    const btnStartStop = this.props.row.state == 'ABORTED' ? null : this.statusUpdateButton();
+    const btnAbort = state == 'RUNNING' || state == 'PAUSED' ? this.abortButton() : this.deleteButton();
 
     return (
     <tr>
@@ -31,8 +35,8 @@ const TableRow = React.createClass({
           </div>
         </td>
         <td>
-          {this.statusUpdateButton()}
-          {this.deleteButton()}
+          {btnStartStop}
+          {btnAbort}
         </td>
     </tr>
     );
