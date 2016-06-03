@@ -13,7 +13,7 @@ const repairForm = React.createClass({
     return {
       addRepairResultMsg: null, clusterNames: [], submitEnabled: false,
       clusterName: null, keyspace: null, tables: null, owner: null, segments: null,
-      parallism: null, intensity: null, cause: null
+      parallism: null, intensity: null, cause: null, incrementalRepair: null
     };
   },
 
@@ -48,6 +48,10 @@ const repairForm = React.createClass({
     if(this.state.parallism) repair.repairParallelism = this.state.parallism;
     if(this.state.intensity) repair.intensity = this.state.intensity;
     if(this.state.cause) repair.cause = this.state.cause;
+    if(this.state.incrementalRepair) repair.incrementalRepair = this.state.incrementalRepair;
+
+    // Force incremental repair to FALSE if empty
+    if(!this.state.incrementalRepair) repair.incrementalRepair = "false";
 
     this.props.addRepairSubject.onNext(repair);
   },
@@ -148,11 +152,21 @@ const repairForm = React.createClass({
               </div>
             </div>
             <div className="form-group">
+              <label htmlFor="in_incrementalRepair" className="col-sm-3 control-label">Incremental</label>
+              <div className="col-sm-9 col-md-7 col-lg-5">
+                <select className="form-control" id="in_incrementalRepair"
+                  onChange={this._handleChange} value={this.state.incrementalRepair}>
+                  <option value="false">false</option>
+                  <option value="true">true</option>
+                </select>
+              </div>
+            </div>
+            <div className="form-group">
               <div className="col-sm-offset-3 col-sm-9">
                 <button type="button" className="btn btn-warning" disabled={!this.state.submitEnabled}
                   onClick={this._onAdd}>Repair</button>
               </div>
-            </div>
+            </div>            
           </form>
 
       </div>

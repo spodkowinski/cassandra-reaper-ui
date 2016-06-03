@@ -12,7 +12,7 @@ const TableRow = React.createClass({
     const segsRepaired = this.props.row.segments_repaired;
     const segsTotal = this.props.row.total_segments;
     const segsPerc = (100/segsTotal)*segsRepaired;
-
+    const incremental = this.props.row.incremental_repair == true ? "true" : "false";
     const state = this.props.row.state;
     const btnStartStop = this.props.row.state == 'ABORTED' ? null : this.statusUpdateButton();
     const btnAbort = state == 'RUNNING' || state == 'PAUSED' ? this.abortButton() : this.deleteButton();
@@ -24,6 +24,7 @@ const TableRow = React.createClass({
         <td data-toggle="collapse" data-target={rowID}>{this.props.row.cluster_name}</td>
         <td data-toggle="collapse" data-target={rowID}>{this.props.row.keyspace_name}</td>
         <td data-toggle="collapse" data-target={rowID}>{this.props.row.column_families}</td>
+        <td data-toggle="collapse" data-target={rowID}>{incremental}</td>
         <td data-toggle="collapse" data-target={rowID}>
           <div className="progress">
             <div className="progress-bar" role="progressbar"
@@ -61,6 +62,8 @@ const TableRowDetails = React.createClass({
     if(this.props.row.pause_time) {
       pauseTime = moment(this.props.row.pause_time).format("LLL");
     }
+
+    const incremental = this.props.row.incremental_repair == true ? "true" : "false";
 
     return (
       <tr id={rowID} className="collapse out">
@@ -106,6 +109,10 @@ const TableRowDetails = React.createClass({
                 <tr>
                     <td>Repair parallism</td>
                     <td>{this.props.row.repair_parallelism}</td>
+                </tr>
+                <tr>
+                    <td>Incremental repair</td>
+                    <td>{incremental}</td>
                 </tr>
                 <tr>
                     <td>Creation time</td>
@@ -175,6 +182,7 @@ const repairList = React.createClass({
                               <th>Cluster</th>
                               <th>Keyspace</th>
                               <th>CFs</th>
+                              <th>Incremental</th>
                               <th>Repaired</th>
                               <th></th>
                           </tr>

@@ -10,6 +10,7 @@ const TableRow = React.createClass({
 
     const next = moment(this.props.row.next_activation).fromNow();
     const rowID = `#details_${this.props.row.id}`;
+    const incremental = this.props.row.incremental_repair == true ? "true" : "false";
 
     return (
     <tr>
@@ -17,6 +18,7 @@ const TableRow = React.createClass({
         <td data-toggle="collapse" data-target={rowID}>{this.props.row.state}</td>
         <td data-toggle="collapse" data-target={rowID}>{this.props.row.cluster_name}</td>
         <td data-toggle="collapse" data-target={rowID}>{this.props.row.keyspace_name}</td>
+        <td data-toggle="collapse" data-target={rowID}>{incremental}</td>
         <td data-toggle="collapse" data-target={rowID}>{next}</td>
         <td data-toggle="collapse" data-target={rowID}>{this.props.row.scheduled_days_between} days</td>
         <td>
@@ -35,6 +37,7 @@ const TableRowDetails = React.createClass({
     const createdAt = moment(this.props.row.creation_time).format("LLL");
     const nextAt = moment(this.props.row.next_activation).format("LLL");
     const rowID = `details_${this.props.row.id}`;
+    const incremental = this.props.row.incremental_repair == true ? "true" : "false";
 
     return (
       <tr id={rowID} className="collapse out">
@@ -52,6 +55,10 @@ const TableRowDetails = React.createClass({
                 <tr>
                     <td>CFs</td>
                     <td>{this.props.row.column_families}</td>
+                </tr>
+                <tr>
+                    <td>Incremental</td>
+                    <td>{incremental}</td>
                 </tr>
                 <tr>
                     <td>Segment count</td>
@@ -137,6 +144,7 @@ const scheduleList = React.createClass({
                               <th>State</th>
                               <th>Cluster</th>
                               <th>Keyspace</th>
+                              <th>Incremental</th>
                               <th>Next run</th>
                               <th>Interval</th>
                               <th></th>
