@@ -8,6 +8,7 @@ import {
   statusObservableTimer,
   addScheduleSubject, addScheduleResult, deleteScheduleSubject, deleteScheduleResult,
   updateScheduleStatusSubject, updateScheduleStatusResult,
+  logoutSubject, logoutResult,
   schedules, clusterNames
 } from "observable";
 
@@ -19,7 +20,7 @@ jQuery(document).ready(function($){
   );
 
   React.render(
-    React.createElement(Sidebar, {clusterNames}),
+    React.createElement(Sidebar, {clusterNames, logoutSubject, logoutResult}),
     document.getElementById('cr-sidebar')
   );
 

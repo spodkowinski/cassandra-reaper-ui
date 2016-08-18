@@ -16,6 +16,9 @@ if(isDev) {
 
 module.exports = {
   entry: {
+    login: [
+      path.join(__dirname, 'app', 'login.js')
+    ],
     index: [
       path.join(__dirname, 'app', 'index.js')
     ],
@@ -44,7 +47,7 @@ module.exports = {
       "rxjs": 'rxjs/dist/rx.all',
       "moment": 'moment/moment.js'
     },
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx']
   },
   devtool: "eval",
   resolveLoader: {

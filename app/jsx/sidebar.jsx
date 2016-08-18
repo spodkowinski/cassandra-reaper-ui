@@ -2,7 +2,43 @@ import React from "react";
 
 const sidebar = React.createClass({
 
+  propTypes: {
+    logoutSubject: React.PropTypes.object.isRequired,
+    logoutResult: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function () {
+    return {logoutResultMsg: null};
+  },
+
+  componentWillMount: function () {
+    this._logoutResultSubscription = this.props.logoutResult.subscribeOnNext(obs =>
+      obs.subscribe(
+        response => {
+          this.setState({logoutResultMsg: null});
+          window.location.href = "login.html";
+        },
+        response => {
+          this.setState({logoutResultMsg: response.responseText});
+        }
+      )
+    );
+  },
+
+  componentWillUnmount: function () {
+    this._logoutResultSubscription.dispose();
+  },
+    
+  _onLogout: function(e) {
+    this.props.logoutSubject.onNext();
+  },
+
   render: function() {
+
+    let logoutError = null;
+    if (this.state.logoutResultMsg) {
+      logoutError = <div className="alert alert-danger" role="alert">{this.state.logoutResultMsg}</div>
+    }
 
     return (
       <div className="navbar-default sidebar" role="navigation">
@@ -17,8 +53,12 @@ const sidebar = React.createClass({
                   <li>
                       <a href="repair.html"><i className="fa fa-wrench fa-fw"></i> Repair</a>
                   </li>
+                  <li>
+                      <a href="#" onClick={this._onLogout}><i className="fa fa-sign-out fa-fw"></i> Logout</a>
+                  </li>
 
               </ul>
+              {logoutError}
           </div>
       </div>
     );

@@ -9,6 +9,7 @@ import {
   repairs,
   addRepairSubject, addRepairResult,
   deleteRepairSubject, deleteRepairResult, updateRepairStatusSubject,
+  logoutSubject, logoutResult,
   clusterNames
 } from "observable";
 
@@ -20,7 +21,7 @@ jQuery(document).ready(function($){
   );
 
   React.render(
-    React.createElement(Sidebar, {clusterNames}),
+    React.createElement(Sidebar, {clusterNames, logoutSubject, logoutResult}),
     document.getElementById('cr-sidebar')
   );
 

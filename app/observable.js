@@ -1,5 +1,5 @@
 import Rx from "rxjs";
-import $ from "jquery"
+import $ from "jquery";
 
 
 // interval to use for polling entity lists
@@ -15,6 +15,37 @@ export const statusObservableTimer = Rx.Observable.timer(0, POLLING_INTERVAL).ma
     url: `${URL_PREFIX}/ping`
   }).promise());
 });
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Login
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+export const loginSubject = new Rx.Subject();
+
+export const loginResult = loginSubject.map(login => {
+  console.info("Logging in with username: " + login.username);
+  return Rx.Observable.fromPromise($.ajax({
+    url: `${URL_PREFIX}/login`,
+    method: 'POST',
+    data: { username: login.username, password: login.password}
+  }).promise());
+}).share();
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Logout
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+export const logoutSubject = new Rx.Subject();
+
+export const logoutResult = logoutSubject.map(logout => {
+  console.info("Logging out");
+  return Rx.Observable.fromPromise($.ajax({
+    url: `${URL_PREFIX}/logout`,
+    method: 'POST'
+  }).promise());
+}).share();
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

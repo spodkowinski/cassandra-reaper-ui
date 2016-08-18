@@ -7,6 +7,7 @@ import Sidebar from "jsx/sidebar";
 import {
   statusObservableTimer,
   addClusterSubject, addClusterResult, deleteClusterSubject, deleteClusterResult,
+  logoutSubject, logoutResult,
   clusterNames
 } from "observable";
 
@@ -18,7 +19,7 @@ jQuery(document).ready(function($){
   );
 
   React.render(
-    React.createElement(Sidebar, {clusterNames}),
+    React.createElement(Sidebar, {clusterNames, logoutSubject, logoutResult}),
     document.getElementById('cr-sidebar')
   );
 

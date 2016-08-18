@@ -6,6 +6,8 @@
 *.svg
 bower_components/
 node_modules/
+.idea/
+bin/
 build/*.js
-cassandra-reaper-ui*.zip
+release.zip
 
