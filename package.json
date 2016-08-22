@@ -8,6 +8,10 @@
   ],
   "author": "Stefan Podkowinski <github@midnightdrift.com>",
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/spodkowinski/cassandra-reaper-ui.git"
+  },
   "devDependencies": {
     "babel-core": "^4.1.1",
     "babel-loader": "^4.0.0",
