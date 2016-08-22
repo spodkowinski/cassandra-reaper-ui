@@ -44,7 +44,7 @@ module.exports = {
       "rxjs": 'rxjs/dist/rx.all',
       "moment": 'moment/moment.js'
     },
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx']
   },
   devtool: "eval",
   resolveLoader: {
