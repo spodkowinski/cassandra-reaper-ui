@@ -13,7 +13,7 @@ const repairForm = React.createClass({
     return {
       addRepairResultMsg: null, clusterNames: [], submitEnabled: false,
       clusterName: null, keyspace: null, tables: null, owner: null, segments: null,
-      parallism: null, intensity: null, cause: null
+      parallelism: null, intensity: null, cause: null
     };
   },
 
@@ -45,7 +45,7 @@ const repairForm = React.createClass({
     };
     if(this.state.tables) repair.tables = this.state.tables;
     if(this.state.segments) repair.segmentCount = this.state.segments;
-    if(this.state.parallism) repair.repairParallelism = this.state.parallism;
+    if(this.state.parallelism) repair.repairParallelism = this.state.parallelism;
     if(this.state.intensity) repair.intensity = this.state.intensity;
     if(this.state.cause) repair.cause = this.state.cause;
 
@@ -121,10 +121,10 @@ const repairForm = React.createClass({
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="in_parallism" className="col-sm-3 control-label">Parallism</label>
+              <label htmlFor="in_parallelism" className="col-sm-3 control-label">Parallelism</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
-                <select className="form-control" id="in_parallism"
-                  onChange={this._handleChange} value={this.state.parallism}>
+                <select className="form-control" id="in_parallelism"
+                  onChange={this._handleChange} value={this.state.parallelism}>
                   <option value=""></option>
                   <option value="SEQUENTIAL">Sequential</option>
                   <option value="PARALLEL">Parallel</option>

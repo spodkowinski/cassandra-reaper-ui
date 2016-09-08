@@ -13,7 +13,7 @@ const scheduleForm = React.createClass({
     return {
       addScheduleResultMsg: null, clusterNames: [], submitEnabled: false,
       clusterName: null, keyspace: null, tables: null, owner: null, segments: null,
-      parallism: null, intensity: null, startTime: null, intervalDays: null
+      parallelism: null, intensity: null, startTime: null, intervalDays: null
     };
   },
 
@@ -46,7 +46,7 @@ const scheduleForm = React.createClass({
     };
     if(this.state.tables) schedule.tables = this.state.tables;
     if(this.state.segments) schedule.segmentCount = this.state.segments;
-    if(this.state.parallism) schedule.repairParallelism = this.state.parallism;
+    if(this.state.parallelism) schedule.repairParallelism = this.state.parallelism;
     if(this.state.intensity) schedule.intensity = this.state.intensity;
 
     this.props.addScheduleSubject.onNext(schedule);
@@ -122,10 +122,10 @@ const scheduleForm = React.createClass({
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="in_parallism" className="col-sm-3 control-label">Parallism</label>
+              <label htmlFor="in_parallelism" className="col-sm-3 control-label">Parallelism</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
-                <select className="form-control" id="in_parallism"
-                  onChange={this._handleChange} value={this.state.parallism}>
+                <select className="form-control" id="in_parallelism"
+                  onChange={this._handleChange} value={this.state.parallelism}>
                   <option value=""></option>
                   <option value="SEQUENTIAL">Sequential</option>
                   <option value="PARALLEL">Parallel</option>
