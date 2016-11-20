@@ -13,7 +13,7 @@ const scheduleForm = React.createClass({
     return {
       addScheduleResultMsg: null, clusterNames: [], submitEnabled: false,
       clusterName: null, keyspace: null, tables: null, owner: null, segments: null,
-      parallelism: null, intensity: null, startTime: null, intervalDays: null
+      parallelism: null, intensity: null, startTime: null, intervalDays: null, incrementalRepair: null
     };
   },
 
@@ -48,6 +48,12 @@ const scheduleForm = React.createClass({
     if(this.state.segments) schedule.segmentCount = this.state.segments;
     if(this.state.parallelism) schedule.repairParallelism = this.state.parallelism;
     if(this.state.intensity) schedule.intensity = this.state.intensity;
+    if(this.state.incrementalRepair){
+      schedule.incrementalRepair = this.state.incrementalRepair;
+    }
+    else{
+      schedule.incrementalRepair = "false";
+    }
 
     this.props.addScheduleSubject.onNext(schedule);
   },
@@ -152,6 +158,16 @@ const scheduleForm = React.createClass({
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="number" required className="form-control" value={this.state.intervalDays}
                   onChange={this._handleChange} id="in_intervalDays" placeholder="amount of days to wait between scheduling new repairs, (e.g. 7 for weekly)"/>
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="in_incrementalRepair" className="col-sm-3 control-label">Incremental</label>
+              <div className="col-sm-9 col-md-7 col-lg-5">
+                <select className="form-control" id="in_incrementalRepair"
+                  onChange={this._handleChange} value={this.state.incrementalRepair}>
+                  <option value="false">false</option>
+                  <option value="true">true</option>                  
+                </select>
               </div>
             </div>
             <div className="form-group">
