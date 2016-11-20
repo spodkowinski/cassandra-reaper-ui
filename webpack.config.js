@@ -42,7 +42,8 @@ module.exports = {
       "metisMenu.css": "metisMenu/dist/metisMenu.min.css",
       "sb-admin-2": "startbootstrap-sb-admin-2/dist/js/sb-admin-2.js",
       "rxjs": 'rxjs/dist/rx.all',
-      "moment": 'moment/moment.js'
+      "moment": 'moment/moment.js',
+      "react/lib/ReactMount": "react-dom/lib/ReactMount"
     },
     extensions: ['', '.js', '.jsx']
   },

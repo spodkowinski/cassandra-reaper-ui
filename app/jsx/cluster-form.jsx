@@ -1,5 +1,5 @@
 import React from "react";
-
+import ReactDOM from "react-dom";
 
 const clusterForm = React.createClass({
 
@@ -26,7 +26,7 @@ const clusterForm = React.createClass({
   },
 
   _onAdd: function(e) {
-    const seed = React.findDOMNode(this.refs.in_seed_node).value;
+    const seed = ReactDOM.findDOMNode(this.refs.in_seed_node).value;
     this.props.addClusterSubject.onNext(seed);
   },
 
