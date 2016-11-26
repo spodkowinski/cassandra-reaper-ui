@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 
 var _commonDeps = [
-  "bootstrap.css", "sb-admin-2.css", "timeline.css", "font-awesome.css", "metisMenu.css", "style.css",
+  "bootstrap.css", "sb-admin-2.css", "font-awesome.css", "metisMenu.css", "style.css",
   "jquery", "react", "bootstrap", "metisMenu", "sb-admin-2", "rxjs"
 ];
 
