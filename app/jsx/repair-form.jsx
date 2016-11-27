@@ -11,9 +11,9 @@ const repairForm = React.createClass({
 
   getInitialState: function() {
     return {
-      addRepairResultMsg: null, clusterNames: [], submitEnabled: false,
-      clusterName: null, keyspace: null, tables: null, owner: null, segments: null,
-      parallelism: null, intensity: null, cause: null, incrementalRepair: null
+      addRepairResultMsg: null, clusterNames: [],
+      clusterName: "", keyspace: "", tables: "", owner: "", segments: "",
+      parallelism: "", intensity: "", cause: "", incrementalRepair: "false"
     };
   },
 
@@ -39,6 +39,7 @@ const repairForm = React.createClass({
   },
 
   _onAdd: function(e) {
+    if(!this._validate()) return;
     const repair = {
       clusterName: this.state.clusterName, keyspace: this.state.keyspace,
       owner: this.state.owner
@@ -64,10 +65,17 @@ const repairForm = React.createClass({
     const state = this.state;
     state[n] = v;
     this.replaceState(state);
+    this._validate();
+  },
 
-    // validate
-    const valid = state.keyspace && state.clusterName && state.owner;
-    this.setState({submitEnabled: valid});
+  _validate: function() {
+    var validation = {};
+    var state = this.state;
+    validation.fgClusterErrorClass = state.clusterName ? "" : "has-error";
+    validation.fgKeyspaceErrorClass = state.keyspace ? "" : "has-error";
+    validation.fgOwnerErrorClass = state.owner ? "" : "has-error";
+    this.setState(validation);
+    return state.keyspace && state.clusterName && state.owner;
   },
 
   render: function() {
@@ -86,7 +94,7 @@ const repairForm = React.createClass({
 
           <form className="form-horizontal form-condensed">
 
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgClusterErrorClass}>
               <label htmlFor="in_clusterName" className="col-sm-3 control-label">Cluster*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <select className="form-control" id="in_clusterName"
@@ -96,7 +104,7 @@ const repairForm = React.createClass({
               </div>
             </div>
 
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgKeyspaceErrorClass}>
               <label htmlFor="in_keyspace" className="col-sm-3 control-label">Keyspace*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" required className="form-control" value={this.state.keyspace}
@@ -110,7 +118,7 @@ const repairForm = React.createClass({
                   onChange={this._handleChange} id="in_tables" placeholder="table1, table2, table3"/>
               </div>
             </div>
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgOwnerErrorClass}>
               <label htmlFor="in_owner" className="col-sm-3 control-label">Owner*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" required className="form-control" value={this.state.owner}
@@ -163,10 +171,9 @@ const repairForm = React.createClass({
             </div>
             <div className="form-group">
               <div className="col-sm-offset-3 col-sm-9">
-                <button type="button" className="btn btn-warning" disabled={!this.state.submitEnabled}
-                  onClick={this._onAdd}>Repair</button>
+                <button type="button" className="btn btn-warning" onClick={this._onAdd}>Repair</button>
               </div>
-            </div>            
+            </div>
           </form>
 
       </div>

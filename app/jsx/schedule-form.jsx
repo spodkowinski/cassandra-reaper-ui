@@ -11,9 +11,11 @@ const scheduleForm = React.createClass({
 
   getInitialState: function() {
     return {
-      addScheduleResultMsg: null, clusterNames: [], submitEnabled: false,
-      clusterName: null, keyspace: null, tables: null, owner: null, segments: null,
-      parallelism: null, intensity: null, startTime: null, intervalDays: null, incrementalRepair: null
+      addScheduleResultMsg: null, clusterNames: [],
+      fgDateErrorClass: "", fgIntervalErrorClass: "", fgClusterErrorClass : "",
+      fgTablesErrorClass: "", fgKeyspaceErrorClass: "",
+      clusterName: "", keyspace: "", tables: "", owner: "", segments: "",
+      parallelism: "", intensity: "", startTime: "", intervalDays: "", incrementalRepair: "false"
     };
   },
 
@@ -39,6 +41,7 @@ const scheduleForm = React.createClass({
   },
 
   _onAdd: function(e) {
+    if(!this._validate()) return;
     const schedule = {
       clusterName: this.state.clusterName, keyspace: this.state.keyspace,
       owner: this.state.owner, scheduleTriggerTime: this.state.startTime,
@@ -50,8 +53,7 @@ const scheduleForm = React.createClass({
     if(this.state.intensity) schedule.intensity = this.state.intensity;
     if(this.state.incrementalRepair){
       schedule.incrementalRepair = this.state.incrementalRepair;
-    }
-    else{
+    } else {
       schedule.incrementalRepair = "false";
     }
 
@@ -66,11 +68,20 @@ const scheduleForm = React.createClass({
     const state = this.state;
     state[n] = v;
     this.replaceState(state);
+    this._validate();
+  },
 
+  _validate: function() {
     // validate
-    const valid = state.keyspace && state.clusterName && state.owner
-      && state.startTime && state.intervalDays;
-    this.setState({submitEnabled: valid});
+    var validation = {};
+    var state = this.state;
+    validation.fgClusterErrorClass = state.clusterName ? "" : "has-error";
+    validation.fgKeyspaceErrorClass = state.keyspace ? "" : "has-error";
+    validation.fgOwnerErrorClass = state.owner ? "" : "has-error";
+    validation.fgDateErrorClass = state.startTime ? "" : "has-error";
+    validation.fgIntervalErrorClass = state.intervalDays ? "" : "has-error";
+    this.setState(validation);
+    return state.keyspace && state.clusterName && state.owner && state.startTime && state.intervalDays;
   },
 
   render: function() {
@@ -89,7 +100,7 @@ const scheduleForm = React.createClass({
 
           <form className="form-horizontal form-condensed">
 
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgClusterErrorClass}>
               <label htmlFor="in_clusterName" className="col-sm-3 control-label">Cluster*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <select className="form-control" id="in_clusterName"
@@ -99,21 +110,21 @@ const scheduleForm = React.createClass({
               </div>
             </div>
 
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgKeyspaceErrorClass}>
               <label htmlFor="in_keyspace" className="col-sm-3 control-label">Keyspace*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" required className="form-control" value={this.state.keyspace}
                   onChange={this._handleChange} id="in_keyspace" placeholder="name of keyspace to repair"/>
               </div>
             </div>
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgTablesErrorClass}>
               <label htmlFor="in_tables" className="col-sm-3 control-label">Tables</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" className="form-control" value={this.state.tables}
                   onChange={this._handleChange} id="in_tables" placeholder="table1, table2, table3"/>
               </div>
             </div>
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgOwnerErrorClass}>
               <label htmlFor="in_owner" className="col-sm-3 control-label">Owner*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" required className="form-control" value={this.state.owner}
@@ -146,14 +157,14 @@ const scheduleForm = React.createClass({
                   onChange={this._handleChange} id="in_intensity" placeholder="repair intensity for scheduled repair runs"/>
               </div>
             </div>
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgDateErrorClass}>
               <label htmlFor="in_startTime" className="col-sm-3 control-label">Start time*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="datetime-local" required className="form-control"
                   onChange={this._handleChange} value={this.state.startTime} id="in_startTime"/>
               </div>
             </div>
-            <div className="form-group">
+            <div className={'form-group ' + this.state.fgIntervalErrorClass}>
               <label htmlFor="in_intervalDays" className="col-sm-3 control-label">Interval in days*</label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="number" required className="form-control" value={this.state.intervalDays}
@@ -166,14 +177,13 @@ const scheduleForm = React.createClass({
                 <select className="form-control" id="in_incrementalRepair"
                   onChange={this._handleChange} value={this.state.incrementalRepair}>
                   <option value="false">false</option>
-                  <option value="true">true</option>                  
+                  <option value="true">true</option>
                 </select>
               </div>
             </div>
             <div className="form-group">
               <div className="col-sm-offset-3 col-sm-9">
-                <button type="button" className="btn btn-success" disabled={!this.state.submitEnabled}
-                  onClick={this._onAdd}>Add Schedule</button>
+                <button type="button" className="btn btn-success" onClick={this._onAdd}>Add Schedule</button>
               </div>
             </div>
           </form>
