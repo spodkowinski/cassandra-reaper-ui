@@ -8,7 +8,7 @@ Complimentary web UI for [Cassandra Reaper](https://github.com/spotify/cassandra
 
 You'll have to recompile Cassandra Reaper to include the UI.
 
-1. Download [latest release](https://github.com/spodkowinski/cassandra-reaper-ui/releases/download/v0.2.0/cassandra-reaper-ui-0.2.zip)
+1. Download [latest release](https://github.com/spodkowinski/cassandra-reaper-ui/releases/download/v0.3.0/cassandra-reaper-ui-0.3.zip)
 1. Get [Cassandra Reaper](https://github.com/spotify/cassandra-reaper) sources
 1. Extract zip archive to `src/main/resources/assets/`
 1. Build Cassandra Reaper `mvn package`
