@@ -59,7 +59,13 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"deps", /* filename= */"deps.js")
+    new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"deps", /* filename= */"deps.js"),
+    new webpack.DefinePlugin({
+      'process.env': {
+         NODE_ENV: JSON.stringify(isDev ? 'production' : 'dev')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
     loaders: [
