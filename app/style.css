@@ -18,3 +18,7 @@ tr[data-toggle='collapse'], td[data-toggle='collapse'] {
 td > button {
   margin-right: .5em;
 }
+
+.tooltip-inner {
+  max-width: 350px;
+}

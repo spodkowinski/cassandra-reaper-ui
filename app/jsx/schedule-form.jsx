@@ -1,4 +1,5 @@
 import React from "react";
+import $ from "jquery"
 
 
 const scheduleForm = React.createClass({
@@ -33,11 +34,17 @@ const scheduleForm = React.createClass({
         if(names.length == 1) this.setState({clusterName: names[0]});
       })
     );
+
+    // enable bootstrap tooltips for help texts
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
   },
 
   componentWillUnmount: function() {
     this._scheduleResultSubscription.dispose();
     this._clusterNamesSubscription.dispose();
+    $('[data-toggle="tooltip"]').tooltip('destroy');
   },
 
   _onAdd: function(e) {
@@ -101,7 +108,7 @@ const scheduleForm = React.createClass({
           <form className="form-horizontal form-condensed">
 
             <div className={'form-group ' + this.state.fgClusterErrorClass}>
-              <label htmlFor="in_clusterName" className="col-sm-3 control-label">Cluster*</label>
+              <label htmlFor="in_clusterName" className="col-sm-3 control-label">Cluster* <i data-toggle="tooltip" data-placement="top" title="Cluster registered in the UI" className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <select className="form-control" id="in_clusterName"
                   onChange={this._handleChange} value={this.state.clusterName}>
@@ -111,35 +118,35 @@ const scheduleForm = React.createClass({
             </div>
 
             <div className={'form-group ' + this.state.fgKeyspaceErrorClass}>
-              <label htmlFor="in_keyspace" className="col-sm-3 control-label">Keyspace*</label>
+              <label htmlFor="in_keyspace" className="col-sm-3 control-label">Keyspace* <i data-toggle="tooltip" data-placement="top" title="Keyspace to repair" className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" required className="form-control" value={this.state.keyspace}
                   onChange={this._handleChange} id="in_keyspace" placeholder="name of keyspace to repair"/>
               </div>
             </div>
             <div className={'form-group ' + this.state.fgTablesErrorClass}>
-              <label htmlFor="in_tables" className="col-sm-3 control-label">Tables</label>
+              <label htmlFor="in_tables" className="col-sm-3 control-label">Tables <i data-toggle="tooltip" data-placement="top" title="The name of the targeted tables (column families) as comma separated list. If no tables given, then the whole keyspace is targeted." className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" className="form-control" value={this.state.tables}
                   onChange={this._handleChange} id="in_tables" placeholder="table1, table2, table3"/>
               </div>
             </div>
             <div className={'form-group ' + this.state.fgOwnerErrorClass}>
-              <label htmlFor="in_owner" className="col-sm-3 control-label">Owner*</label>
+              <label htmlFor="in_owner" className="col-sm-3 control-label">Owner* <i data-toggle="tooltip" data-placement="top" title="Owner name for the run. This could be any string identifying the owner." className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="text" required className="form-control" value={this.state.owner}
                   onChange={this._handleChange} id="in_owner" placeholder="owner name for the schedule (any string)"/>
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="in_segments" className="col-sm-3 control-label">Segment count</label>
+              <label htmlFor="in_segments" className="col-sm-3 control-label">Segment count <i data-toggle="tooltip" data-placement="top" title="Defines the default amount of repair segments to create for newly registered Cassandra repair runs (token rings). When running a repair run by the Reaper, each segment is repaired separately by the Reaper process, until all the segments in a token ring are repaired. The count might be slightly off the defined value, as clusters residing in multiple data centers require additional small token ranges in addition to the expected. You can overwrite this value per repair run, when calling the Reaper." className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="number" className="form-control" value={this.state.segments}
                   onChange={this._handleChange} id="in_segments" placeholder="amount of segments to create for scheduled repair runs"/>
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="in_parallelism" className="col-sm-3 control-label">Parallelism</label>
+              <label htmlFor="in_parallelism" className="col-sm-3 control-label">Parallelism <i data-toggle="tooltip" data-placement="top" title="Defines the default type of parallelism to use for repairs. Repair parallelism value must be one of: &quot;sequential&quot;, &quot;parallel&quot;, or &quot;datacenter_aware&quot;. If you try to use &quot;datacenter_aware&quot; in clusters that don't support it yet (older than 2.0.12), Reaper will fall back into using &quot;sequential&quot; for those clusters." className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <select className="form-control" id="in_parallelism"
                   onChange={this._handleChange} value={this.state.parallelism}>
@@ -151,28 +158,28 @@ const scheduleForm = React.createClass({
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="in_intensity" className="col-sm-3 control-label">Repair intensity</label>
+              <label htmlFor="in_intensity" className="col-sm-3 control-label">Repair intensity <i data-toggle="tooltip" data-placement="top" title="Repair intensity is a value between 0.0 and 1.0, but not zero. Repair intensity defines the amount of time to sleep between triggering each repair segment while running a repair run. When intensity is one, it means that Reaper doesn't sleep at all before triggering next segment, and otherwise the sleep time is defined by how much time it took to repair the last segment divided by the intensity value. 0.5 means half of the time is spent sleeping, and half running. Intensity 0.75 means that 25% of the total time is used sleeping and 75% running. This value can also be overwritten per repair run when invoking repairs." className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="number" className="form-control" value={this.state.intensity}
                   onChange={this._handleChange} id="in_intensity" placeholder="repair intensity for scheduled repair runs"/>
               </div>
             </div>
             <div className={'form-group ' + this.state.fgDateErrorClass}>
-              <label htmlFor="in_startTime" className="col-sm-3 control-label">Start time*</label>
+              <label htmlFor="in_startTime" className="col-sm-3 control-label">Start time* <i data-toggle="tooltip" data-placement="top" title="Defines the date and time for first scheduled trigger for the run." className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="datetime-local" required className="form-control"
                   onChange={this._handleChange} value={this.state.startTime} id="in_startTime"/>
               </div>
             </div>
             <div className={'form-group ' + this.state.fgIntervalErrorClass}>
-              <label htmlFor="in_intervalDays" className="col-sm-3 control-label">Interval in days*</label>
+              <label htmlFor="in_intervalDays" className="col-sm-3 control-label">Interval in days* <i data-toggle="tooltip" data-placement="top" title="Defines the amount of days to wait between scheduling new repairs. For example, use value 7 for weekly schedule, and 0 for continuous." className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <input type="number" required className="form-control" value={this.state.intervalDays}
                   onChange={this._handleChange} id="in_intervalDays" placeholder="amount of days to wait between scheduling new repairs, (e.g. 7 for weekly)"/>
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="in_incrementalRepair" className="col-sm-3 control-label">Incremental</label>
+              <label htmlFor="in_incrementalRepair" className="col-sm-3 control-label">Incremental <i data-toggle="tooltip" data-placement="top" title="Defines if incremental repairs should be used for Cassandra 2.1+ (NOT available in Spotify Reaper version)" className="fa fa-info-circle" aria-hidden="true"></i></label>
               <div className="col-sm-9 col-md-7 col-lg-5">
                 <select className="form-control" id="in_incrementalRepair"
                   onChange={this._handleChange} value={this.state.incrementalRepair}>
